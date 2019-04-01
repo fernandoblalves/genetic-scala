@@ -2,12 +2,12 @@ package genetic
 
 import util.Random
 
-class Population(val populationSize: Integer) {
-	val chromosomeSize: Integer = 64
+class Population(populationSize: Int, val chromosomeSize: Int, mutationRate: Double = 0.015, mixingRatio: Double = 0.5) {
 	var pop: Array[Organism] = _
 
-	val mutationRate = 0.015
-	val mixingRatio = 0.5
+	private def this(populationSize: Int) = {
+		this(populationSize, 100)
+	}
 
 	/**
 		* Create the space for the population but don't populate
@@ -94,7 +94,7 @@ class Population(val populationSize: Integer) {
 		* Mutate an organism with a random rate of 0.015
 		*/
 	def mutate(organism: Organism): Organism = {
-		val c: Array[Byte] = organism.genes
+		val c: Array[Byte] = organism.chromosome
 
 		for(index <- c.indices) {
 
@@ -110,11 +110,11 @@ class Population(val populationSize: Integer) {
 		* Create a child organism from two parents
 		*/
 	def crossover(parent1: Organism, parent2: Organism): Organism = {
-		val otherParentGenes = parent2.genes
+		val otherParentGenes = parent2.chromosome
 		val chromosomes = new Array[Byte](otherParentGenes.length)
 
 		var index: Integer = 0
-		for (gene <- parent1.genes) {
+		for (gene <- parent1.chromosome) {
 
 			if (Math.random <= mixingRatio) {
 				chromosomes(index) = gene

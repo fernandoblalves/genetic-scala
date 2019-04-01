@@ -1,38 +1,18 @@
 package genetic
 
-trait Evolver {
+object Runner extends Evolver {
 
-	def run(candidate: String, evaluator: Evaluator, population: Population): Organism = {
+	def main(args: Array[String]): Unit = {
+		val evaluator = new Evaluator
+		val candidate = "0101010101010101010101010101010101010101010101010101010101010101"
+		evaluator.load(candidate)
 
-		def run(pop: Population, generation: Int): Organism = {
-			val fittest = evaluator.fittest(pop)
-			val fitness = evaluator.fitness(fittest)
+		val population = new Population(50, 100)
+		population.populate()
 
-			println(f"generation: $generation%02d chromosome: $fittest%s fitness: $fitness%2.2f")
+		val solution: Organism = run(candidate, evaluator, population)
 
-			if (fitness >= 1.0)
-				fittest
-			else
-				run(
-					pop.evolve(elitist = true, evaluator),
-					generation + 1
-				)
-		}
-
-		run(population, 1)
+		println("\ncandidate:  " + candidate)
+		println("solution:   " + solution)
 	}
-}
-
-object Runner extends App with Evolver {
-	val evaluator = new Evaluator
-	val candidate = "0101010101010101010101010101010101010101010101010101010101010101"
-	evaluator.load(candidate)
-
-	var population = new Population(50)
-	population.populate()
-
-	val solution: Organism = run(candidate, evaluator, population)
-
-	println("\ncandidate:  " + candidate)
-	println("solution:   " + solution)
 }

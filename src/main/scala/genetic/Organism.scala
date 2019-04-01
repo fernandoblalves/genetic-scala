@@ -2,8 +2,6 @@ package genetic
 
 class Organism(val chromosome: Array[Byte]) {
 
-	def genes: Array[Byte] = chromosome
-
 	override def toString: String = {
 
 		val sb: StringBuilder = new StringBuilder
