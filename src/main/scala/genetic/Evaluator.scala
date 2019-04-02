@@ -1,14 +1,6 @@
 package genetic
 
-class Evaluator {
-	var solutionBytes: Array[Byte] = _
-
-	/**
-		* Load a solution from a string
-		*/
-	def load(solution: String): Unit = {
-		solutionBytes = solution.map(_.asDigit.toByte).toArray
-	}
+abstract class Evaluator {
 
 	/**
 		* Return the fittest organism in a population
@@ -30,9 +22,5 @@ class Evaluator {
 	/**
 		* Calculate an organism's fitness by comparing it to the optimal solution
 		*/
-	def fitness(organism: Organism): Double = {
-		val score: Double = organism.chromosome.map(_.toInt).sum
-
-		score / organism.chromosome.length
-	}
+	def fitness(organism: Organism): Double
 }
