@@ -7,19 +7,39 @@ class GeneticEvolver(chromosomeSize: Int, numIterations: Int = 100, populationSi
 		var fittest: Organism = null
 		var fitness: Double = 0.0
 		val evolver: Evolver = new Evolver(chromosomeSize, populationSize)
+		val target = evaluator.objectiveType
+		if(target == ObjectiveType.minimization){
+			fitness = 1.0
+		}
 
 		for(iteration <- 1 to numIterations) {
-			val (org, value) = evaluator.fittest(pop)
-			fittest = org
-			fitness = value
+			val evaluatedPop: EvaluatedPopulation = evaluator.evaluate(pop, evaluator.objectiveType)
+			val newFittest = evaluatedPop.population.head._1
+			val newFitness = evaluatedPop.population.head._2
 
-			println(f"generation: $iteration%03d chromosome: $fittest%s fitness: $fitness%2.2f")
+			println(f"generation: $iteration%03d chromosome: $newFittest%s fitness: $newFitness%2.5f")
 
-			if (fitness == targetValue)
-				return fittest
-			else
-				pop = evolver.evolve(pop, elitist = true, evaluator)
+			if (newFitness == targetValue){
+				return newFittest
+			} else {
+				if(target == ObjectiveType.minimization){
+					if(newFitness < fitness){
+						fitness = newFitness
+						fittest = newFittest
+					}
+				}else{ // maximization
+					if(newFitness > fitness){
+						fitness = newFitness
+						fittest = newFittest
+					}
+				}
+			}
+
+			pop = evolver.evolve(evaluatedPop, elitist = true)
 		}
+
+		println
+		println(f"Fittest: chromosome: $fittest%s fitness: $fitness%2.5f")
 		fittest
 	}
 }

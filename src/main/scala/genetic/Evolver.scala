@@ -7,22 +7,21 @@ class Evolver(populationSize: Int, chromosomeSize: Int, mutationRate: Double = 0
 	/**
 		* Evolve the population by crossover and mutation
 		* @param elitist If true, the fittest organism passes to the next generation
-		* @param evaluator The evaluator to use
 		*/
-	def evolve(population: Population, elitist: Boolean, evaluator: Evaluator): Population = {
+	def evolve(population: EvaluatedPopulation, elitist: Boolean): Population = {
 		val nextGeneration = new Population(populationSize, chromosomeSize)
 
 		var offset = 0
 
 		if (elitist) {
-			val (eliteOrganism, _) = evaluator.fittest(population)
+			val (eliteOrganism, _) = population.population.head
 			nextGeneration.addOrganism(0, mutate(eliteOrganism))
 			offset += 1
 		}
 
 		for(index <- offset until population.size) {
-			val parent1: Organism = select(population, evaluator)
-			val parent2: Organism = select(population, evaluator)
+			val parent1: Organism = select(population)
+			val parent2: Organism = select(population)
 			val child: Organism = crossover(parent1, parent2)
 
 			nextGeneration.addOrganism(index, mutate(child))
@@ -70,16 +69,15 @@ class Evolver(populationSize: Int, chromosomeSize: Int, mutationRate: Double = 0
 	/**
 		* Select an organism from the population using stochastic universal sampling
 		*/
-	def select(population: Population, evaluator: Evaluator): Organism = {
+	def select(population: EvaluatedPopulation): Organism = {
 		val numberOfRounds = 10
 
-		val tournament = new Population(populationSize, chromosomeSize)
-
-		for (i <- 0 to numberOfRounds) {
-			val randomOrganism = population.population(Random.nextInt(populationSize))
-			tournament.addOrganism(i, randomOrganism)
-		}
-
-		evaluator.fittest(tournament)._1
+		scala.util.Random.shuffle(population.population).take(numberOfRounds).sortWith {(a, b) =>
+			if (population.objectiveType == ObjectiveType.minimization) {
+				a._2 < b._2
+			} else { //maximization
+				a._2 > b._2
+			}
+		}.head._1
 	}
 }
