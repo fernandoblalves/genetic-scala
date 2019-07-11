@@ -1,6 +1,6 @@
 package genetic
 
-class Population(populationSize: Int, chromosomeSize: Int) {
+class Population(chromosomeSize: Int, populationSize : Int) {
 	var population: Array[Organism] = new Array[Organism](populationSize)
 	populate()
 
