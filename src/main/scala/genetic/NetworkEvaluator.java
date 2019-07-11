@@ -1,6 +1,12 @@
 package genetic;
 
+import scala.Enumeration;
+
 public class NetworkEvaluator extends Evaluator {
+
+	NetworkEvaluator(Enumeration.Value objectiveType) {
+		super(objectiveType);
+	}
 
 	@Override
 	public double fitness(Organism organism) {

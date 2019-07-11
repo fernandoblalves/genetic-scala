@@ -1,14 +1,14 @@
 package genetic
 
 class Population(populationSize: Int, chromosomeSize: Int) {
-	var pop: Array[Organism] = new Array[Organism](populationSize)
+	var population: Array[Organism] = new Array[Organism](populationSize)
 	populate()
 
 	/**
 		* Populate with organisms
 		*/
 	def populate(): Unit = {
-		pop = new Array[Organism](populationSize)
+		population = new Array[Organism](populationSize)
 
 		for( i <- 0 until populationSize) {
 
@@ -19,7 +19,7 @@ class Population(populationSize: Int, chromosomeSize: Int) {
 			}
 
 			val organism = new Organism(bytes)
-			pop(i) = organism
+			population(i) = organism
 		}
 	}
 
@@ -27,14 +27,14 @@ class Population(populationSize: Int, chromosomeSize: Int) {
 		* Return the population size
 		*/
 	def size: Integer = {
-		pop.length
+		population.length
 	}
 
 	override def toString: String = {
 		val sb: StringBuilder = new StringBuilder
 
 		sb.append("[")
-		for (organism <- pop) {
+		for (organism <- population) {
 			sb.append(organism + ", ")
 		}
 		sb.dropRight(2)
@@ -47,6 +47,6 @@ class Population(populationSize: Int, chromosomeSize: Int) {
 		* Add an organism to a particular location in a population
 		*/
 	def addOrganism(index: Int, organism: Organism): Unit = {
-		pop(index) = organism
+		population(index) = organism
 	}
 }

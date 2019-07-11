@@ -15,7 +15,7 @@ class Evolver(populationSize: Int, chromosomeSize: Int, mutationRate: Double = 0
 		var offset = 0
 
 		if (elitist) {
-			val eliteOrganism = evaluator.fittest(population)
+			val (eliteOrganism, _) = evaluator.fittest(population)
 			nextGeneration.addOrganism(0, mutate(eliteOrganism))
 			offset += 1
 		}
@@ -76,10 +76,10 @@ class Evolver(populationSize: Int, chromosomeSize: Int, mutationRate: Double = 0
 		val tournament = new Population(populationSize, chromosomeSize)
 
 		for (i <- 0 to numberOfRounds) {
-			val randomOrganism = population.pop(Random.nextInt(populationSize))
+			val randomOrganism = population.population(Random.nextInt(populationSize))
 			tournament.addOrganism(i, randomOrganism)
 		}
 
-		evaluator.fittest(tournament)
+		evaluator.fittest(tournament)._1
 	}
 }
