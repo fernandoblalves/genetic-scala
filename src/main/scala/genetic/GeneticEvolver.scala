@@ -5,11 +5,11 @@ class GeneticEvolver(chromosomeSize: Int, numIterations: Int = 100, populationSi
 	def run(evaluator: Evaluator): Organism = {
 		var pop = new Population(chromosomeSize, populationSize)
 		var fittest: Organism = null
-		var fitness: Double = 0.0
+		var fitness: Double = Double.MinValue
 		val evolver: Evolver = new Evolver(chromosomeSize, populationSize)
 		val target = evaluator.objectiveType
 		if(target == ObjectiveType.minimization){
-			fitness = 1.0
+			fitness = Double.MaxValue
 		}
 
 		for(iteration <- 1 to numIterations) {
