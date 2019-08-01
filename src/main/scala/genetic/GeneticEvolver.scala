@@ -2,8 +2,18 @@ package genetic
 
 class GeneticEvolver(chromosomeSize: Int, numIterations: Int = 100, populationSize: Int = 100, targetValue: Double = 1.0){
 
-	def run(evaluator: Evaluator): Organism = {
-		var pop = new Population(chromosomeSize, populationSize)
+	/**
+		* Runs the genetic optimizer.
+		* @param evaluator The evaluator used to evaluate the obtained organisms.
+		* @param prevBest Can be null if no previous best organism is to be used.
+		* @return
+		*/
+	def run(evaluator: Evaluator, prevBest: Organism = null): Organism = {
+		var pop: Population = null
+		if(prevBest != null)
+			new Population(chromosomeSize, populationSize)
+		else
+			new Population(chromosomeSize, populationSize, prevBest)
 		var fittest: Organism = null
 		var fitness: Double = Double.MinValue
 		val evolver: Evolver = new Evolver(chromosomeSize, populationSize)

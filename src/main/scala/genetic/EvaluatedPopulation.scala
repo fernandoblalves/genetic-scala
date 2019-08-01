@@ -4,10 +4,15 @@ import genetic.ObjectiveType.ObjectiveType
 
 import scala.collection.JavaConverters._
 
-class EvaluatedPopulation(resultList: java.util.List[(Organism, Double)], val objectiveType: ObjectiveType) {
+class EvaluatedPopulation(resultList: Seq[(Organism, Double)], val objectiveType: ObjectiveType) {
 
-	var population: Seq[(Organism, Double)] = asScalaIteratorConverter(resultList.iterator()).asScala.toSeq
+	var population: Seq[(Organism, Double)] = resultList
 	sort()
+
+	def this(resultList: java.util.List[(Organism, Double)], objectiveType: ObjectiveType){
+		this(asScalaIteratorConverter(resultList.iterator()).asScala.toSeq, objectiveType)
+	}
+
 
 	def size: Integer = {
 		population.length

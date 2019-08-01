@@ -4,6 +4,14 @@ class Population(chromosomeSize: Int, populationSize : Int) {
 	var population: Array[Organism] = new Array[Organism](populationSize)
 	populate()
 
+	def this(chromosomeSize: Int, populationSize : Int, prevBest: Organism){
+		this(chromosomeSize, populationSize)
+		var fakePopulation: Seq[(Organism, Double)] = new Array[(Organism, Double)](populationSize)
+		fakePopulation = fakePopulation.map(_ => (prevBest, 1.0))
+		val ev = new EvaluatedPopulation(fakePopulation, ObjectiveType.maximization)
+		population = new Evolver(populationSize, chromosomeSize).evolve(ev, elitist = true).population
+	}
+
 	/**
 		* Populate with organisms
 		*/
