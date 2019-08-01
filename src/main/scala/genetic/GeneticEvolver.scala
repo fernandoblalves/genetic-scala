@@ -10,10 +10,10 @@ class GeneticEvolver(chromosomeSize: Int, numIterations: Int = 100, populationSi
 		*/
 	def run(evaluator: Evaluator, prevBest: Organism = null): Organism = {
 		var pop: Population = null
-		if(prevBest != null)
-			new Population(chromosomeSize, populationSize)
+		if(prevBest == null)
+			pop = new Population(chromosomeSize, populationSize)
 		else
-			new Population(chromosomeSize, populationSize, prevBest)
+			pop = new Population(chromosomeSize, populationSize, prevBest)
 		var fittest: Organism = null
 		var fitness: Double = Double.MinValue
 		val evolver: Evolver = new Evolver(chromosomeSize, populationSize)

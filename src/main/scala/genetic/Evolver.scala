@@ -1,15 +1,13 @@
 package genetic
 
-import scala.util.Random
-
-class Evolver(populationSize: Int, chromosomeSize: Int, mutationRate: Double = 0.015, mixingRatio: Double = 0.5) {
+class Evolver(chromosomeSize: Int, populationSize: Int, mutationRate: Double = 0.015, mixingRatio: Double = 0.5) {
 
 	/**
 		* Evolve the population by crossover and mutation
 		* @param elitist If true, the fittest organism passes to the next generation
 		*/
 	def evolve(population: EvaluatedPopulation, elitist: Boolean): Population = {
-		val nextGeneration = new Population(populationSize, chromosomeSize)
+		val nextGeneration = new Population(chromosomeSize, populationSize)
 
 		var offset = 0
 
